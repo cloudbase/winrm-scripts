@@ -39,8 +39,8 @@ subjectAltName = otherName:1.3.6.1.4.1.311.20.2.3;UTF8:$UPN
 EOF
 
 export OPENSSL_CONF=$EXT_CONF_FILE
-openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out $PEM_FILE \
--outform PEM -keyout $KEY_FILE -subj $SUBJECT \
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out "$PEM_FILE" \
+-outform PEM -keyout $KEY_FILE -subj "$SUBJECT" \
 -extensions v3_req_client 2> /dev/null
 
 rm $EXT_CONF_FILE
@@ -48,12 +48,12 @@ unset OPENSSL_CONF
 
 # This will ask for an export password.
 # To avoid it, add: -password pass:yourpassword
-openssl pkcs12 -export -in $PEM_FILE -inkey $KEY_FILE -out $PFX_FILE
+openssl pkcs12 -export -in "$PEM_FILE" -inkey $KEY_FILE -out "$PFX_FILE"
 
 rm -rf $PRIVATE_DIR
 
-THUMBPRINT=`openssl x509 -inform PEM -in $PEM_FILE -fingerprint -noout | \
+THUMBPRINT=`openssl x509 -inform PEM -in "$PEM_FILE" -fingerprint -noout | \
 sed -e 's/\://g' | sed -n 's/^.*=\(.*\)$/\1/p'`
 
-echo "Certificate Subject: $(echo $SUBJECT | sed -e 's/\///g')"
+echo "Certificate Subject: $(echo \"$SUBJECT\" | sed -e 's/\///g')"
 echo "Certificate Thumbprint: $THUMBPRINT"
