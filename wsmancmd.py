@@ -61,7 +61,7 @@ def run_wsman_cmd(url, username, password, cmd):
     protocol.Protocol.DEFAULT_TIMEOUT = "PT3600S"
 
     p = protocol.Protocol(endpoint=url,
-                          transport='kerberos',
+                          transport='plaintext',
                           username=username,
                           password=password)
 
